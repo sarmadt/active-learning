@@ -13,9 +13,9 @@
 # limitations under the License.
 
 """Utility functions for run_experiment.py."""
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
+
+
 
 import copy
 import os
@@ -43,7 +43,7 @@ class Logger(object):
 
   def __init__(self, filename):
     self.terminal = sys.stdout
-    self.log = gfile.GFile(filename, "w")
+    self.log = gfile.GFile(filename, "wb")
 
   def write(self, message):
     self.terminal.write(message)
@@ -117,7 +117,7 @@ def get_mldata(data_dir, name):
     filename = os.path.join(data_dir, dataname + ".pkl")
     if not gfile.Exists(filename):
       raise NameError("ERROR: dataset not available")
-    data = pickle.load(gfile.GFile(filename, "r"))
+    data = pickle.load(gfile.GFile(filename, "rb"))
     X = data["data"]
     y = data["target"]
     if "keras" in dataname:
@@ -183,7 +183,7 @@ def flip_label(y, percent_random):
   """
   classes = np.unique(y)
   y_orig = copy.copy(y)
-  indices = range(y_orig.shape[0])
+  indices = list(range(y_orig.shape[0]))
   np.random.shuffle(indices)
   sample = indices[0:int(len(indices) * 1.0 * percent_random)]
   fake_labels = []

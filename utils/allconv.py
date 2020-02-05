@@ -13,9 +13,9 @@
 # limitations under the License.
 
 """Implements allconv model in keras using tensorflow backend."""
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
+
+
 
 import copy
 
@@ -118,15 +118,15 @@ class AllConv(object):
     if self.encode_map is None:
       self.classes_ = sorted(list(set(y)))
       self.n_classes = len(self.classes_)
-      self.encode_map = dict(zip(self.classes_, range(len(self.classes_))))
-      self.decode_map = dict(zip(range(len(self.classes_)), self.classes_))
+      self.encode_map = dict(list(zip(self.classes_, list(range(len(self.classes_))))))
+      self.decode_map = dict(list(zip(list(range(len(self.classes_))), self.classes_)))
     mapper = lambda x: self.encode_map[x]
-    transformed_y = np.array(map(mapper, y))
+    transformed_y = np.array(list(map(mapper, y)))
     return transformed_y
 
   def decode_y(self, y):
     mapper = lambda x: self.decode_map[x]
-    transformed_y = np.array(map(mapper, y))
+    transformed_y = np.array(list(map(mapper, y)))
     return transformed_y
 
   def fit(self, X_train, y_train, sample_weight=None):
@@ -191,6 +191,6 @@ class AllConv(object):
     return copy.copy(params)
 
   def set_params(self, **parameters):
-    for parameter, value in parameters.items():
+    for parameter, value in list(parameters.items()):
       setattr(self, parameter, value)
     return self

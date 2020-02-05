@@ -20,9 +20,9 @@ Batch is created by clustering points within the margin of the classifier and
 choosing points closest to the k centroids.
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
+
+
 
 from sklearn.cluster import MiniBatchKMeans
 import numpy as np

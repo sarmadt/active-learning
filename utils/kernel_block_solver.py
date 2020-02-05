@@ -13,9 +13,9 @@
 # limitations under the License.
 
 """Block kernel lsqr solver for multi-class classification."""
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
+
+
 
 import copy
 import math
@@ -54,15 +54,15 @@ class BlockKernelSolver(object):
     # Handles classes that do not start counting from 0.
     if self.encode_map is None:
       self.classes_ = sorted(list(set(y)))
-      self.encode_map = dict(zip(self.classes_, range(len(self.classes_))))
-      self.decode_map = dict(zip(range(len(self.classes_)), self.classes_))
+      self.encode_map = dict(list(zip(self.classes_, list(range(len(self.classes_))))))
+      self.decode_map = dict(list(zip(list(range(len(self.classes_))), self.classes_)))
     mapper = lambda x: self.encode_map[x]
-    transformed_y = np.array(map(mapper, y))
+    transformed_y = np.array(list(map(mapper, y)))
     return transformed_y
 
   def decode_y(self, y):
     mapper = lambda x: self.decode_map[x]
-    transformed_y = np.array(map(mapper, y))
+    transformed_y = np.array(list(map(mapper, y)))
     return transformed_y
 
   def fit(self, X_train, y_train, sample_weight=None):
@@ -85,7 +85,7 @@ class BlockKernelSolver(object):
     x = np.zeros((K.shape[0], num_classes))
     y_hat = np.zeros((K.shape[0], num_classes))
     onehot = lambda x: np.eye(num_classes)[x]
-    y_onehot = np.array(map(onehot, y))
+    y_onehot = np.array(list(map(onehot, y)))
     idxes = np.diag_indices(num_samples)
     if sample_weight is not None:
       weights = np.sqrt(sample_weight)
@@ -169,7 +169,7 @@ class BlockKernelSolver(object):
     return copy.copy(params)
 
   def set_params(self, **parameters):
-    for parameter, value in parameters.items():
+    for parameter, value in list(parameters.items()):
       setattr(self, parameter, value)
     return self
 

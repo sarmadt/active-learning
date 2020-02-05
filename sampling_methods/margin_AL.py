@@ -17,9 +17,9 @@
 Samples in batches based on margin scores.
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
+
+
 
 import numpy as np
 from sampling_methods.sampling_def import SamplingMethod

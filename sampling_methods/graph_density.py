@@ -19,9 +19,9 @@ This is an implementation of the method described in
 https://www.mpi-inf.mpg.de/fileadmin/inf/d2/Research_projects_files/EbertCVPR2012.pdf
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
+
+
 
 import copy
 
@@ -50,7 +50,7 @@ class GraphDensitySampler(SamplingMethod):
     # Make connectivity matrix symmetric, if a point is a k nearest neighbor of
     # another point, make it vice versa
     neighbors = connect.nonzero()
-    inds = zip(neighbors[0],neighbors[1])
+    inds = list(zip(neighbors[0],neighbors[1]))
     # Graph edges are weighted by applying gaussian kernel to manhattan dist.
     # By default, gamma for rbf kernel is equal to 1/n_features but may
     # get better results if gamma is tuned.

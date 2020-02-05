@@ -18,9 +18,9 @@ Implements algorithm described in Dasgupta, S and Hsu, D,
 "Hierarchical Sampling for Active Learning, 2008
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
+
+
 
 import numpy as np
 from sklearn.cluster import AgglomerativeClustering
@@ -128,7 +128,7 @@ class HierarchicalClusterAL(SamplingMethod):
     # ids greater than n_points - 1 with the root having the highest node id
     self.root = max(self.node_dict.keys())
     self.tree = Tree(self.root, self.node_dict)
-    self.tree.create_child_leaves_mapping(range(self.n_leaves))
+    self.tree.create_child_leaves_mapping(list(range(self.n_leaves)))
     for v in node_dict:
       self.admissible[v] = set()
 
@@ -179,7 +179,7 @@ class HierarchicalClusterAL(SamplingMethod):
     if y is None:
       y_dict = self.y_labels
     else:
-      y_dict = dict(zip(range(len(y)), y))
+      y_dict = dict(list(zip(list(range(len(y))), y)))
     labels = [y_dict[c] for c in children if c in y_dict]
     # If no labels have been observed, simply return uniform distribution
     if len(labels) == 0:

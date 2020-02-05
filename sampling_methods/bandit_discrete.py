@@ -22,9 +22,9 @@ Similar to Hsu & Lin 2015, Active Learning by Learning.
 https://www.csie.ntu.edu.tw/~htlin/paper/doc/aaai15albl.pdf
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
+
+
 
 import numpy as np
 
@@ -108,7 +108,7 @@ class BanditDiscreteSampler(WrapperSamplingMethod):
     if len(self.pull_history) > 0:
       self.update_vars(self.pull_history[-1])
     # Sample an arm
-    arm = np.random.choice(range(self.n_arms), p=self.p)
+    arm = np.random.choice(list(range(self.n_arms)), p=self.p)
     self.pull_history.append(arm)
     kwargs['N'] = N
     kwargs['already_selected'] = already_selected

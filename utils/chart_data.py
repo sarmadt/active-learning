@@ -15,9 +15,9 @@
 """Experiment charting script.
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
+
+
 
 import os
 import pickle
@@ -116,7 +116,7 @@ def plot_results(all_results, score_method, norm, stand, sampler_filter):
           'p'
   }
   fields = all_results['tuple_keys']
-  fields = dict(zip(fields, range(len(fields))))
+  fields = dict(list(zip(fields, list(range(len(fields))))))
 
   for k in sorted(all_results.keys()):
     sampler = k[fields['sampler']]

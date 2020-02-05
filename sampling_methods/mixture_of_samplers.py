@@ -16,9 +16,9 @@
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
+
+
 
 import copy
 
@@ -46,7 +46,7 @@ class MixtureOfSamplers(SamplingMethod):
     self.y = y
     self.name = 'mixture_of_samplers'
     self.sampling_methods = mixture['methods']
-    self.sampling_weights = dict(zip(mixture['methods'], mixture['weights']))
+    self.sampling_weights = dict(list(zip(mixture['methods'], mixture['weights'])))
     self.seed = seed
     # A list of initialized samplers is allowed as an input because
     # for AL_methods that search over different mixtures, may want mixtures to

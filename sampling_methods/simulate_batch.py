@@ -14,9 +14,9 @@
 
 """ Select a new batch based on results of simulated trajectories."""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
+
+
 
 import copy
 import math

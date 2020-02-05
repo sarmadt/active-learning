@@ -18,16 +18,18 @@ Downloads datasets using scikit datasets and can also parse csv file
 to save into pickle format.
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
+
+
 
 from io import BytesIO
+from io import StringIO
 import os
 import pickle
-import StringIO
+#import StringIO
 import tarfile
-import urllib2
+import urllib.request, urllib.error, urllib.parse
+import ssl
 
 import keras.backend as K
 from keras.datasets import cifar10
@@ -37,7 +39,7 @@ from keras.datasets import mnist
 import numpy as np
 import pandas as pd
 from sklearn.datasets import fetch_20newsgroups_vectorized
-from sklearn.datasets import fetch_mldata
+from sklearn.datasets import fetch_openml
 from sklearn.datasets import load_breast_cancer
 from sklearn.datasets import load_iris
 import sklearn.datasets.rcv1
@@ -54,6 +56,11 @@ flags.DEFINE_string('datasets', '',
                     'Which datasets to download, comma separated.')
 FLAGS = flags.FLAGS
 
+if (not os.environ.get('PYTHONHTTPSVERIFY', '') and
+    getattr(ssl, '_create_unverified_context', None)): 
+    ssl._create_default_https_context = ssl._create_unverified_context
+
+context = ssl._create_unverified_context()
 
 class Dataset(object):
 
@@ -98,8 +105,8 @@ def get_wikipedia_talk_data():
   ANNOTATIONS_URL = 'https://ndownloader.figshare.com/files/7554637'
 
   def download_file(url):
-    req = urllib2.Request(url)
-    response = urllib2.urlopen(req)
+    req = urllib.request.Request(url)
+    response = urllib.request.urlopen(req, context=context)
     return response
 
   # Process comments
@@ -166,8 +173,8 @@ def get_cifar10():
   """
   url = 'http://www.cs.toronto.edu/~kriz/cifar-10-python.tar.gz'
   def download_file(url):
-    req = urllib2.Request(url)
-    response = urllib2.urlopen(req)
+    req = urllib.request.Request(url)
+    response = urllib.request.urlopen(req, context=context)
     return response
   response = download_file(url)
   tmpfile = BytesIO()
@@ -238,7 +245,7 @@ def get_mldata(dataset):
       data = get_keras_data(dataset[0])
     else:
       try:
-        data = fetch_mldata(dataset[0])
+        data = fetch_openml(dataset[0])
       except:
         raise Exception('ERROR: failed to fetch data from mldata.org')
     X = data.data
@@ -260,9 +267,9 @@ def main(argv):
               ('iris', 'iris'), ('vehicle', 'vehicle'), ('wine', 'wine'),
               ('waveform ida', 'waveform'), ('german ida', 'german'),
               ('splice ida', 'splice'), ('ringnorm ida', 'ringnorm'),
-              ('twonorm ida', 'twonorm'), ('diabetes_scale', 'diabetes'),
-              ('mushrooms', 'mushrooms'), ('letter', 'letter'), ('dna', 'dna'),
-              ('banana-ida', 'banana'), ('letter', 'letter'), ('dna', 'dna'),
+              ('twonorm ida', 'twonorm'), ('diabetes130US', 'diabetes'),
+              ('mushroom', 'mushrooms'), ('letter', 'letter'), ('dna', 'dna'),
+              ('banana', 'banana'), ('letter', 'letter'), ('dna', 'dna'),
               ('newsgroup', 'newsgroup'), ('cifar10', 'cifar10'),
               ('cifar10_keras', 'cifar10_keras'),
               ('cifar100_keras', 'cifar100_keras'),
@@ -276,7 +283,7 @@ def main(argv):
     datasets = [d for d in datasets if d[1] in subset]
 
   for d in datasets:
-    print(d[1])
+    print((d[1]))
     get_mldata(d)
 
 

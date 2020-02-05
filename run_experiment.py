@@ -25,9 +25,9 @@ By default uses logistic regression but can also train using kernel SVM.
 
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+
+
+
 
 import os
 import pickle
@@ -80,7 +80,7 @@ flags.DEFINE_string("standardize_data", "True",
                     "Whether to standardize the data.")
 flags.DEFINE_string("save_dir", "/tmp/toy_experiments",
                     "Where to save outputs")
-flags.DEFINE_string("data_dir", "/tmp/data",
+flags.DEFINE_string("data_dir", "/data1/code_team/active-learning/data",
                     "Directory with predownloaded and saved datasets.")
 flags.DEFINE_string("max_dataset_size", "15000",
                     ("maximum number of datapoints to include in data "
@@ -210,7 +210,7 @@ def generate_one_curve(X,
   results = {}
   data_sizes = []
   accuracy = []
-  selected_inds = range(seed_batch)
+  selected_inds = list(range(seed_batch))
 
   # If select model is None, use score_model
   same_score_select = False
@@ -240,7 +240,7 @@ def generate_one_curve(X,
     n_sample = min(batch_size, train_size - len(selected_inds))
     select_batch_inputs = {
         "model": select_model,
-        "labeled": dict(zip(selected_inds, y_train[selected_inds])),
+        "labeled": dict(list(zip(selected_inds, y_train[selected_inds]))),
         "eval_acc": accuracy[-1],
         "X_test": X_val,
         "y_test": y_val,
